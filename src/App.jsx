@@ -51,9 +51,10 @@ function App() {
   const [gainMoments, setGainMoments] = useState([]);
   const [comboMoment, setComboMoment] = useState(null);
   const [comboTrail, setComboTrail] = useState([]);
+  const [cardOrder, setCardOrder] = useState(cards);
 
   const text = localeText[locale];
-  const currentCard = cards[index];
+  const currentCard = cardOrder[index];
   const selectedHero =
     heroCharacters.find((character) => character.id === selectedHeroId) ?? heroCharacters[0];
 
@@ -157,11 +158,12 @@ function App() {
     setGainMoments([]);
     setComboMoment(null);
     setComboTrail([]);
+    setCardOrder([...cards].sort(() => Math.random() - 0.5));
     setStage("play");
   };
 
   const applyOutcome = (outcome) => {
-    const card = cards[index];
+    const card = cardOrder[index];
     const delta = { ...card[outcome] };
     const comboTriggered =
       outcome === "like" &&
