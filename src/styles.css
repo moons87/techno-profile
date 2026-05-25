@@ -1304,4 +1304,19 @@ a {
   .result-hero-image-frame {
     min-height: 240px;
   }
+
+  .result-hero-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .result-hero-card {
+    grid-template-rows: auto;
+    grid-template-columns: auto 1fr;
+    align-items: start;
+  }
+
+  .result-hero-image-frame {
+    min-height: 160px;
+    width: 140px;
+  }
 }
