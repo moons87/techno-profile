@@ -373,7 +373,7 @@ export const profileArchetypes = [
   },
   {
     id: "generic",
-    match: ["logic"],
+    match: ["research", "create"],
     heroId: "system-architect",
     title: {
       ru: "Техно-исследователь",
