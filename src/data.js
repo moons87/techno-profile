@@ -555,7 +555,7 @@ export const cards = [
       kz: "Саған ақау нақты қай жерде екенін тез анықтау қызық па: роутер, кабель, баптау әлде сервер ме?",
     },
     like: { logic: 2, practice: 2, organize: 1 },
-    skip: { create: 1, connect: 1 },
+    skip: { create: 2, connect: 1 },
     combo: {
       title: {
         ru: "Сетевой импульс",
@@ -577,7 +577,7 @@ export const cards = [
       kz: "Оның қалай көрінетінін, қалай жұмыс істейтінін және адамдарға қалай көмектесетінін елестету ұнай ма?",
     },
     like: { create: 2, logic: 1, connect: 1 },
-    skip: { practice: 1, organize: 1 },
+    skip: { practice: 2, organize: 1 },
   },
   {
     id: 3,
@@ -591,7 +591,7 @@ export const cards = [
       kz: "Саған неге бұлай болғанын және байланыс сапасын қалай күшейтуге болатынын түсіну қызық па?",
     },
     like: { research: 2, practice: 2, logic: 1 },
-    skip: { create: 1, connect: 1 },
+    skip: { create: 2, connect: 1 },
     combo: {
       title: {
         ru: "Мобильный резонанс",
@@ -613,7 +613,7 @@ export const cards = [
       kz: "Себебін тауып, механизмді тексеріп, жүйені қайта іске қосу саған қызық па?",
     },
     like: { practice: 2, organize: 1, research: 1 },
-    skip: { connect: 1, create: 1 },
+    skip: { connect: 2, create: 1 },
   },
   {
     id: 5,
@@ -627,7 +627,7 @@ export const cards = [
       kz: "Осалдық қай жерде екенін тексеріп, қауіптерге жолды қалай жабуды ойластырғың келе ме?",
     },
     like: { logic: 2, research: 2, organize: 1 },
-    skip: { create: 1, connect: 1 },
+    skip: { create: 2, connect: 1 },
     combo: {
       title: {
         ru: "Кибер-щит",
@@ -649,7 +649,7 @@ export const cards = [
       kz: "Күрделі нәрсені қадамдарға бөліп, басқа адамға тез түсінуге көмектесу саған ұнай ма?",
     },
     like: { connect: 2, organize: 1, logic: 1 },
-    skip: { research: 1, practice: 1 },
+    skip: { research: 2, practice: 1 },
   },
   {
     id: 7,
@@ -663,7 +663,7 @@ export const cards = [
       kz: "Оны бәрі тез әрі ыңғайлы жұмыс істеуі үшін баптау саған қызық па?",
     },
     like: { organize: 2, logic: 1, create: 1 },
-    skip: { practice: 1, research: 1 },
+    skip: { practice: 2, research: 1 },
     combo: {
       title: {
         ru: "Синхронизация систем",
@@ -685,7 +685,7 @@ export const cards = [
       kz: "Оны қадамдап тексеріп, қосылымдарын қарап, жұмыс істейтін күйге келтіру саған қызық па?",
     },
     like: { practice: 2, research: 1, logic: 1 },
-    skip: { connect: 1, create: 1 },
+    skip: { connect: 2, create: 1 },
   },
   {
     id: 9,
@@ -699,7 +699,7 @@ export const cards = [
       kz: "Мысалы, басқалар шынымен қолданатын сайт, қосымша немесе сервис жасағың келе ме?",
     },
     like: { create: 2, logic: 1, research: 1 },
-    skip: { organize: 1, practice: 1 },
+    skip: { organize: 2, practice: 1 },
     combo: {
       title: {
         ru: "Режим разработки",
@@ -721,7 +721,7 @@ export const cards = [
       kz: "Тұрақтылықты, қолжетімділікті және қауіпсіздікті бақылап отыратын рөл саған жақын ба?",
     },
     like: { organize: 2, logic: 1, research: 1 },
-    skip: { create: 1, connect: 1 },
+    skip: { create: 2, connect: 1 },
   },
   {
     id: 11,
@@ -735,7 +735,7 @@ export const cards = [
       kz: "Жалпы суретті құрап, барлық бөліктердің бір-біріне қалай тәуелді екенін түсіну саған қызық па?",
     },
     like: { logic: 2, organize: 1, research: 1 },
-    skip: { practice: 1, connect: 1 },
+    skip: { practice: 2, connect: 1 },
   },
   {
     id: 12,
@@ -749,7 +749,7 @@ export const cards = [
       kz: "Идеяны, адамдарды, процестерді және нақты нәтижені біріктіретін адам болу саған ұнай ма?",
     },
     like: { connect: 2, organize: 2, create: 1 },
-    skip: { practice: 1, research: 1 },
+    skip: { practice: 2, research: 1 },
     combo: {
       title: {
         ru: "Запуск команды",
