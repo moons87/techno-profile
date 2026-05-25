@@ -70,11 +70,16 @@ function App() {
       }));
   }, [scores, text]);
 
+  const normalizedScores = useMemo(() => {
+    const max = Math.max(...Object.values(scores), 1);
+    return Object.fromEntries(Object.entries(scores).map(([k, v]) => [k, v / max]));
+  }, [scores]);
+
   const recommendations = useMemo(() => {
     return specialties
       .map((specialty) => {
         const specialtyScore = Object.entries(specialty.powers).reduce(
-          (sum, [power, weight]) => sum + weight * scores[power],
+          (sum, [power, weight]) => sum + weight * (normalizedScores[power] ?? 0),
           0,
         );
 
@@ -85,16 +90,14 @@ function App() {
       })
       .sort((a, b) => b.specialtyScore - a.specialtyScore)
       .slice(0, 3);
-  }, [scores]);
+  }, [normalizedScores]);
 
   const archetype = useMemo(() => {
-    const topKeys = rankedPowers.slice(0, 2).map((item) => item.key);
-    return (
-      profileArchetypes.find((item) =>
-        item.match.every((power) => topKeys.includes(power)),
-      ) ?? profileArchetypes[profileArchetypes.length - 1]
-    );
-  }, [rankedPowers]);
+    return profileArchetypes.reduce((best, current) => {
+      const score = current.match.reduce((s, p) => s + (normalizedScores[p] ?? 0), 0);
+      return score > best.score ? { archetype: current, score } : best;
+    }, { archetype: profileArchetypes[profileArchetypes.length - 1], score: -1 }).archetype;
+  }, [normalizedScores]);
 
   const resultHero = useMemo(() => {
     return (
