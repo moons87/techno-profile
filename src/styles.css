@@ -1004,6 +1004,7 @@ a {
   background: radial-gradient(circle, rgba(111, 228, 255, 0.28), transparent 65%);
   filter: blur(12px);
   pointer-events: none;
+  animation: orb-pulse 3s ease-in-out infinite;
 }
 
 .result-header {
@@ -1206,6 +1207,16 @@ a {
     transform: translate3d(0, 360px, 0) rotate(520deg);
     opacity: 0;
   }
+}
+
+@keyframes orb-pulse {
+  0%, 100% { transform: scale(1); opacity: 0.28; }
+  50% { transform: scale(1.18); opacity: 0.44; }
+}
+
+@keyframes cascade-in {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
 @media (max-width: 1080px) {

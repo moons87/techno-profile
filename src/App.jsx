@@ -1,5 +1,9 @@
-import { useEffect, useMemo, useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { AnimatePresence, motion, useMotionValue } from "framer-motion";
+import SwipeOverlay from "./components/SwipeOverlay";
+import ParticlesBurst from "./components/ParticlesBurst";
+import RippleEffect from "./components/RippleEffect";
+import ShimmerButton from "./components/ShimmerButton";
 import {
   cards,
   collegeLinks,
@@ -253,7 +257,7 @@ function App() {
                 className="welcome-stack"
                 initial={{ opacity: 0, y: 24 }}
                 animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -16 }}
+                exit={{ opacity: 0, scale: 0.97, y: -20 }}
                 >
                   <div className="welcome-grid">
                     <div className="welcome-copy">
@@ -277,9 +281,9 @@ function App() {
                         ))}
                       </div>
                       <div className="welcome-actions">
-                        <button type="button" className="primary-button" onClick={beginGame}>
+                        <ShimmerButton type="button" className="primary-button" onClick={beginGame}>
                           {text.start}
-                        </button>
+                        </ShimmerButton>
                       </div>
                     </div>
 
@@ -389,7 +393,7 @@ function App() {
 
             {stage === "play" && currentCard && (
               <motion.div
-                key={`play-${currentCard.id}`}
+                key="play"
                 className="play-stack"
                 initial={{ opacity: 0, y: 24 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -471,25 +475,30 @@ function App() {
 
                 <AnimatePresence>
                   {comboMoment && (
-                    <motion.div
-                      className="combo-banner"
-                      initial={{ opacity: 0, scale: 0.94 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      exit={{ opacity: 0, scale: 0.98 }}
-                    >
-                      <span>{text.comboActivated}</span>
-                      <strong>{comboMoment.title[locale]}</strong>
-                    </motion.div>
+                    <RippleEffect active={!!comboMoment}>
+                      <motion.div
+                        className="combo-banner"
+                        initial={{ opacity: 0, scale: 0.94 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        exit={{ opacity: 0, scale: 0.98 }}
+                      >
+                        <span>{text.comboActivated}</span>
+                        <strong>{comboMoment.title[locale]}</strong>
+                      </motion.div>
+                    </RippleEffect>
                   )}
                 </AnimatePresence>
 
                 <div className="card-stage">
-                  <SwipeCard
-                    card={currentCard}
-                    locale={locale}
-                    comboReady={currentComboReady}
-                    onAnswer={applyOutcome}
-                  />
+                  <AnimatePresence mode="wait">
+                    <SwipeCard
+                      key={currentCard.id}
+                      card={currentCard}
+                      locale={locale}
+                      comboReady={currentComboReady}
+                      onAnswer={applyOutcome}
+                    />
+                  </AnimatePresence>
                 </div>
 
                 <div className="action-row">
@@ -519,7 +528,7 @@ function App() {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -16 }}
               >
-                <Confetti burst={burst} />
+                <ParticlesBurst burst={burst} />
 
                 <div className="result-spotlight">
                   <div className="spotlight-orb" />
@@ -530,7 +539,12 @@ function App() {
                       <p>{archetype.summary[locale]}</p>
                     </div>
 
-                    <div className={`result-hero-card ${resultHero.accent}`}>
+                    <motion.div
+                      className={`result-hero-card ${resultHero.accent}`}
+                      initial={{ scale: 0.82, filter: "blur(8px)", opacity: 0 }}
+                      animate={{ scale: 1, filter: "blur(0px)", opacity: 1 }}
+                      transition={{ type: "spring", stiffness: 180, damping: 20, delay: 0.15 }}
+                    >
                       <div className="result-hero-copy">
                         <span>{text.heroResultLabel}</span>
                         <strong>{resultHero.title[locale]}</strong>
@@ -543,7 +557,7 @@ function App() {
                           className="result-hero-image"
                         />
                       </div>
-                    </div>
+                    </motion.div>
                   </div>
 
                   <div className="spotlight-stats">
@@ -567,8 +581,14 @@ function App() {
                 </div>
 
                 <div className="powers-grid">
-                  {rankedPowers.slice(0, 3).map((power) => (
-                    <article key={power.key} className="power-card">
+                  {rankedPowers.slice(0, 3).map((power, powerIndex) => (
+                    <motion.article
+                      key={power.key}
+                      className="power-card"
+                      initial={{ opacity: 0, y: 16 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.3 + powerIndex * 0.15, duration: 0.5, ease: "easeOut" }}
+                    >
                       <div className="power-meter">
                         <motion.div
                           className={`power-fill ${powerAccent[power.key]}`}
@@ -578,21 +598,27 @@ function App() {
                       </div>
                       <h3>{power.name}</h3>
                       <p>{power.profile}</p>
-                    </article>
+                    </motion.article>
                   ))}
                 </div>
 
                 <div className="result-list">
                   <div className="section-title">{text.recommendationsTitle}</div>
                   {recommendations.map((specialty, specialtyIndex) => (
-                    <article key={specialty.id} className="specialty-card">
+                    <motion.article
+                      key={specialty.id}
+                      className="specialty-card"
+                      initial={{ opacity: 0, y: 24 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.5 + specialtyIndex * 0.1, duration: 0.45, ease: "easeOut" }}
+                    >
                       <div className="specialty-rank">0{specialtyIndex + 1}</div>
                       <div className="specialty-copy">
                         <span>{specialty.program[locale]}</span>
                         <h3>{specialty.title[locale]}</h3>
                         <p>{specialty.blurb[locale]}</p>
                       </div>
-                    </article>
+                    </motion.article>
                   ))}
                 </div>
 
@@ -691,7 +717,7 @@ function HeroCharacter({ character, delay, locale, selected, onSelect }) {
     >
       <motion.div
         className="character-image-frame"
-        animate={{ y: [0, -8, 0] }}
+        animate={{ y: [0, -12, 0], rotate: [0, 1.5, 0] }}
         transition={{ duration: 4 + delay * 3, repeat: Infinity, ease: "easeInOut" }}
       >
         <img
@@ -709,24 +735,42 @@ function HeroCharacter({ character, delay, locale, selected, onSelect }) {
 }
 
 function SwipeCard({ card, locale, comboReady, onAnswer }) {
+  const dragX = useMotionValue(0);
+  const exitDirRef = useRef(1);
+
   return (
     <motion.article
       className={`swipe-card ${accentClasses[card.accent]}`}
       drag="x"
       dragConstraints={{ left: 0, right: 0 }}
       dragElastic={0.18}
+      style={{ x: dragX }}
       onDragEnd={(_, info) => {
         if (info.offset.x > 120) {
+          exitDirRef.current = 1;
           onAnswer("like");
         } else if (info.offset.x < -120) {
+          exitDirRef.current = -1;
           onAnswer("skip");
         }
       }}
-      initial={{ scale: 0.96, opacity: 0 }}
-      animate={{ scale: 1, opacity: 1 }}
-      exit={{ scale: 0.9, opacity: 0 }}
+      initial={{ scale: 0.88, y: 18, opacity: 0 }}
+      animate={{ scale: 1, y: 0, opacity: 1 }}
+      exit={{
+        x: exitDirRef.current === 1 ? 600 : -600,
+        rotate: exitDirRef.current === 1 ? 30 : -30,
+        opacity: 0,
+        filter: "blur(4px)",
+      }}
+      transition={{
+        x: { type: "spring", stiffness: 320, damping: 26 },
+        rotate: { type: "spring", stiffness: 320, damping: 26 },
+        opacity: { duration: 0.22 },
+        filter: { duration: 0.22 },
+      }}
       whileDrag={{ rotate: 8, scale: 1.02 }}
     >
+      <SwipeOverlay dragX={dragX} />
       <div className="card-glow" />
       <div className="card-topline">
         <span>Superpower Signal</span>
