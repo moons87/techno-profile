@@ -1321,26 +1321,20 @@ a {
   }
 }
 
-.chat-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(4, 6, 16, 0.55);
-  backdrop-filter: blur(2px);
-  z-index: 40;
-}
-
 .chat-drawer {
   position: fixed;
-  top: 0;
-  right: 0;
-  height: 100vh;
-  width: min(440px, 92vw);
+  bottom: 24px;
+  right: 24px;
+  height: min(620px, calc(100vh - 48px));
+  width: min(400px, calc(100vw - 32px));
   background: #0d1020;
-  border-left: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
   display: flex;
   flex-direction: column;
   z-index: 50;
-  box-shadow: -24px 0 60px rgba(0, 0, 0, 0.45);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.55);
+  overflow: hidden;
 }
 
 .chat-header {

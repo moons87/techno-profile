@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import { useChat } from "../chat/useChat";
 
@@ -26,17 +27,9 @@ function ChatDrawer({ open, onClose, profile, locale, text }) {
     submit(draft);
   };
 
-  return (
+  return createPortal(
     <AnimatePresence>
       {open && (
-        <>
-          <motion.div
-            className="chat-overlay"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={onClose}
-          />
           <motion.aside
             className="chat-drawer"
             role="dialog"
@@ -104,9 +97,9 @@ function ChatDrawer({ open, onClose, profile, locale, text }) {
               </button>
             </form>
           </motion.aside>
-        </>
       )}
-    </AnimatePresence>
+    </AnimatePresence>,
+    document.body,
   );
 }
 
