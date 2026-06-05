@@ -4,6 +4,8 @@ import SwipeOverlay from "./components/SwipeOverlay";
 import ParticlesBurst from "./components/ParticlesBurst";
 import RippleEffect from "./components/RippleEffect";
 import ShimmerButton from "./components/ShimmerButton";
+import ChatDrawer from "./components/ChatDrawer";
+import { buildGameProfile } from "./chat/gameProfile";
 import {
   cards,
   collegeLinks,
@@ -52,6 +54,8 @@ function App() {
   const [comboMoment, setComboMoment] = useState(null);
   const [comboTrail, setComboTrail] = useState([]);
   const [cardOrder, setCardOrder] = useState(cards);
+  const [decisions, setDecisions] = useState([]);
+  const [chatOpen, setChatOpen] = useState(false);
 
   const text = localeText[locale];
   const currentCard = cardOrder[index];
@@ -105,6 +109,21 @@ function App() {
       heroCharacters[0]
     );
   }, [archetype]);
+
+  const gameProfile = useMemo(
+    () =>
+      buildGameProfile({
+        decisions,
+        rankedPowers,
+        recommendations,
+        archetype,
+        resultHero,
+        comboTrail,
+        cards,
+        locale,
+      }),
+    [decisions, rankedPowers, recommendations, archetype, resultHero, comboTrail, locale],
+  );
 
   const selectedHeroRecommendations = useMemo(() => {
     return specialties
@@ -161,6 +180,8 @@ function App() {
     setGainMoments([]);
     setComboMoment(null);
     setComboTrail([]);
+    setDecisions([]);
+    setChatOpen(false);
     setCardOrder([...cards].sort(() => Math.random() - 0.5));
     setStage("play");
   };
@@ -208,6 +229,7 @@ function App() {
     }
 
     setLastSwipe(outcome);
+    setDecisions((previous) => [...previous, { cardId: card.id, outcome }]);
 
     const delay = comboTriggered ? 1180 : 760;
 
@@ -643,7 +665,21 @@ function App() {
                   <button type="button" className="ghost-button" onClick={beginGame}>
                     {text.restart}
                   </button>
+                  <button
+                    type="button"
+                    className="primary-button"
+                    onClick={() => setChatOpen(true)}
+                  >
+                    {text.chatOpen}
+                  </button>
                 </div>
+                <ChatDrawer
+                  open={chatOpen}
+                  onClose={() => setChatOpen(false)}
+                  profile={gameProfile}
+                  locale={locale}
+                  text={text}
+                />
               </motion.div>
             )}
           </AnimatePresence>
