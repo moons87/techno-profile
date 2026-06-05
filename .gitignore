@@ -4,3 +4,6 @@ dist/
 vite.err
 vite.log
 *.docx
+.env
+.env.local
+.env.*.local
