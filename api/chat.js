@@ -96,6 +96,7 @@ export default async function handler(req, res) {
 
   res.setHeader("Content-Type", "text/plain; charset=utf-8");
   res.setHeader("Cache-Control", "no-cache, no-transform");
+  res.setHeader("X-Accel-Buffering", "no");
 
   try {
     const stream = client.messages.stream({
