@@ -173,6 +173,15 @@ function App() {
     }
   }, [stage]);
 
+  useEffect(() => {
+    if (stage !== "results") {
+      return undefined;
+    }
+
+    const timeout = window.setTimeout(() => setChatOpen(true), 1800);
+    return () => window.clearTimeout(timeout);
+  }, [stage]);
+
   const beginGame = () => {
     setScores(initialScores);
     setIndex(0);
@@ -665,16 +674,10 @@ function App() {
                   <button type="button" className="ghost-button" onClick={beginGame}>
                     {text.restart}
                   </button>
-                  <button
-                    type="button"
-                    className="primary-button"
-                    onClick={() => setChatOpen(true)}
-                  >
-                    {text.chatOpen}
-                  </button>
                 </div>
                 <ChatDrawer
                   open={chatOpen}
+                  onOpen={() => setChatOpen(true)}
                   onClose={() => setChatOpen(false)}
                   profile={gameProfile}
                   locale={locale}

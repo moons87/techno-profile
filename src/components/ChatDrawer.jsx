@@ -3,7 +3,7 @@ import { createPortal } from "react-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import { useChat } from "../chat/useChat";
 
-function ChatDrawer({ open, onClose, profile, locale, text }) {
+function ChatDrawer({ open, onOpen, onClose, profile, locale, text }) {
   const { messages, isStreaming, error, sendMessage } = useChat({
     profile,
     locale,
@@ -28,16 +28,37 @@ function ChatDrawer({ open, onClose, profile, locale, text }) {
   };
 
   return createPortal(
-    <AnimatePresence>
-      {open && (
+    <>
+      <AnimatePresence>
+        {!open && (
+          <motion.button
+            type="button"
+            className="chat-fab"
+            onClick={onOpen}
+            aria-label={text.chatOpen}
+            initial={{ opacity: 0, scale: 0.8, y: 16 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.8, y: 16 }}
+            transition={{ type: "spring", stiffness: 260, damping: 22 }}
+          >
+            <span className="chat-fab-icon" aria-hidden="true">
+              💬
+            </span>
+            {text.chatOpen}
+          </motion.button>
+        )}
+      </AnimatePresence>
+
+      <AnimatePresence>
+        {open && (
           <motion.aside
             className="chat-drawer"
             role="dialog"
             aria-label={text.chatTitle}
-            initial={{ x: "100%" }}
-            animate={{ x: 0 }}
-            exit={{ x: "100%" }}
-            transition={{ type: "spring", stiffness: 260, damping: 30 }}
+            initial={{ opacity: 0, scale: 0.92, y: 24 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.92, y: 24 }}
+            transition={{ type: "spring", stiffness: 260, damping: 28 }}
           >
             <header className="chat-header">
               <div>
@@ -97,8 +118,9 @@ function ChatDrawer({ open, onClose, profile, locale, text }) {
               </button>
             </form>
           </motion.aside>
-      )}
-    </AnimatePresence>,
+        )}
+      </AnimatePresence>
+    </>,
     document.body,
   );
 }
